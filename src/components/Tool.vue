@@ -288,6 +288,11 @@ export default {
     },
     startHandler() {
       this.$emit('toggle');
+      // todo 获取奖项池
+      // 从最小的奖项开始判断
+      // 查看奖项是否抽完
+      // 未抽完，空格抽一下
+      // 抽完了，换个高等级奖项
       if (!this.running) {
         this.showSetwat = true;
       }
