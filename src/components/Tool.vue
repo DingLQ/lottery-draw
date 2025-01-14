@@ -289,6 +289,21 @@ export default {
     startHandler() {
       this.$emit('toggle');
       // todo 获取奖项池
+      const categorys = this.categorys
+      for (let item in categorys) {
+        console.log(item)
+        // 获取当前奖项value
+        const key = item.value
+        // 奖项总数
+        const allNumber = this.config[key]
+        // 已抽人数
+        const number = this.result[key] ? this.result[key].length : 0
+        // 判断奖项是否抽完
+        if (number > 0) {
+          // 奖项没抽完
+          // emit后返回
+        }
+      }
       // 从最小的奖项开始判断
       // 查看奖项是否抽完
       // 未抽完，空格抽一下
