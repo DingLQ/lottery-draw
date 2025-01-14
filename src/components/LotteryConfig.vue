@@ -31,7 +31,7 @@
             :step="1"
           ></el-input>
         </el-form-item>
-        <el-form-item label="一等奖">
+        <el-form-item label="获奖人数">
           <el-input
             type="number"
             v-model="form.firstPrize"

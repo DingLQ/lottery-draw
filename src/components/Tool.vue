@@ -289,27 +289,39 @@ export default {
     startHandler() {
       this.$emit('toggle');
       // todo 获取奖项池
+      if (!this.running) {
       const categorys = this.categorys
-      for (let item in categorys) {
-        console.log(item)
+      for (let item of categorys) {
+        // console.log(item)
         // 获取当前奖项value
         const key = item.value
         // 奖项总数
-        const allNumber = this.config[key]
+        const allNumber = parseInt(this.config[key])
         // 已抽人数
-        const number = this.result[key] ? this.result[key].length : 0
+        const remain = this.result[key] ? this.result[key].length : 0
+        console.log(this.result[key])
         // 判断奖项是否抽完
-        if (number > 0) {
+        if (allNumber - remain > 0) {
           // 奖项没抽完
           // emit后返回
+          this.$emit('toggle', Object.assign({}, {
+            mode: 1,
+            category: key,
+            allin: this.form.allin
+          }))
+          return
+        } else {
+          this.$message.error('抽奖次数用完了！');
+          // 奖项抽完了
+          continue
         }
       }
       // 从最小的奖项开始判断
       // 查看奖项是否抽完
       // 未抽完，空格抽一下
       // 抽完了，换个高等级奖项
-      if (!this.running) {
-        this.showSetwat = true;
+      
+        // this.showSetwat = true;
       }
     },
     transformList() {
@@ -356,7 +368,7 @@ export default {
   },
   beforeDestroy() {
     document.addEventListener('keydown', this.keydownSpace)
-  },
+  }
 };
 </script>
 <style lang="scss">
