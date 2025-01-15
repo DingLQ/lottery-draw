@@ -291,15 +291,16 @@ export default {
       // todo 获取奖项池
       if (!this.running) {
       const categorys = this.categorys
-      for (let item of categorys) {
+      for (let i =0; i< categorys.length; i++) {
         // console.log(item)
+        const item = categorys[i]
         // 获取当前奖项value
         const key = item.value
         // 奖项总数
         const allNumber = parseInt(this.config[key])
         // 已抽人数
         const remain = this.result[key] ? this.result[key].length : 0
-        console.log(this.result[key])
+        console.log(key)
         // 判断奖项是否抽完
         if (allNumber - remain > 0) {
           // 奖项没抽完
@@ -316,10 +317,6 @@ export default {
           continue
         }
       }
-      // 从最小的奖项开始判断
-      // 查看奖项是否抽完
-      // 未抽完，空格抽一下
-      // 抽完了，换个高等级奖项
       
         // this.showSetwat = true;
       }
