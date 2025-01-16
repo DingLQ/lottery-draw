@@ -15,9 +15,24 @@
 	} 
 */
 
+// export function generateArray(start, end) {
+//   return Array.from(new Array(end + 1).keys()).slice(start);
+// }
 export function generateArray(start, end) {
-  return Array.from(new Array(end + 1).keys()).slice(start);
+  let count = 0;
+  let current = start;
+  const result = [];
+
+  while (count < end) {
+    if (!current.toString().includes('4')) {
+      result.push(current);
+      count++;
+    }
+    current++;
+  }
+  return result;
 }
+
 
 /**
  * 取范围内随机整数
