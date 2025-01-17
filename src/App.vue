@@ -27,7 +27,8 @@
     </div>
     <transition name="bounce">
       <div id="resbox" v-show="showRes">
-        <p @click="showRes = false">{{ categoryName }}抽奖结果：</p>
+        <p @click="showRes = false">抽奖结果：</p>
+        <!-- <p @click="showRes = false">{{ categoryName }}抽奖结果：</p> -->
         <div class="container">
           <span
             v-for="item in resArr"
@@ -123,6 +124,7 @@ import {
   newLotteryField,
   conversionCategoryName,
   listField,
+  getExcludeAry
 } from '@/helper/index';
 import { luckydrawHandler } from '@/helper/algorithm';
 import Result from '@/components/Result';
@@ -337,7 +339,7 @@ export default {
         this.audioSrc = beginaudio;
         this.loadAudio();
 
-        const { number } = config;
+        const { number, exclude } = config;
         const { category, mode, qty, remain, allin } = form;
         let num = 1;
         if (mode === 1 || mode === 5) {
@@ -347,12 +349,16 @@ export default {
         } else if (mode === 99) {
           num = qty;
         }
+        let excludeAry = getExcludeAry(exclude)
+        let wonAry = [...this.allresult, ...excludeAry]
         const resArr = luckydrawHandler(
           number,
-          allin ? [] : this.allresult,
+          allin ? [] : wonAry,
           num
         );
-        this.resArr = resArr;
+        setTimeout(() => {
+          this.resArr = resArr;
+        },1000)
 
         this.category = category;
         if (!this.result[category]) {

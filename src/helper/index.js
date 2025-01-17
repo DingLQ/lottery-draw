@@ -53,3 +53,21 @@ export function conversionCategoryName(key) {
   }
   return name;
 }
+
+
+export function getExcludeAry(exclude) {
+  let excludeArr = [];
+  if (exclude) {
+    // exclude 去除空格
+    let excludeStr = exclude.replace(/\s+/g, '');
+    // 将中文逗号替换为英文逗号
+    excludeStr = excludeStr.replace(/，/g, ',');
+    // 获取数组
+    excludeArr = excludeStr.split(',');
+    // 将排除数组转为数字
+    excludeArr.forEach((item, index) => {
+      excludeArr[index] = Number(item);
+    });
+  }
+  return excludeArr
+}

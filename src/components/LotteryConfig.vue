@@ -31,6 +31,9 @@
             :step="1"
           ></el-input>
         </el-form-item>
+        <el-form-item label="排除号码">
+          <el-input placeholder="例如：1,2,3,4" v-model="form.exclude"></el-input>
+        </el-form-item>
         <el-form-item label="获奖人数">
           <el-input
             type="number"

@@ -1,5 +1,5 @@
 <template>
-  <div id="tool"  @keyup.space="startHandler">
+  <div id="tool">
     <el-button @click="startHandler" type="primary" size="mini">{{
       running ? '停止' : '开始'
     }}</el-button>
@@ -141,6 +141,7 @@ import {
 } from '@/helper/index';
 import Importphoto from './Importphoto';
 import { database, DB_STORE_NAME } from '@/helper/db';
+import { getExcludeAry } from '../helper';
 
 export default {
   props: {
@@ -288,37 +289,42 @@ export default {
     },
     startHandler() {
       this.$emit('toggle');
-      // todo 获取奖项池
       if (!this.running) {
-      const categorys = this.categorys
-      for (let i =0; i< categorys.length; i++) {
-        // console.log(item)
-        const item = categorys[i]
-        // 获取当前奖项value
-        const key = item.value
-        // 奖项总数
-        const allNumber = parseInt(this.config[key])
-        // 已抽人数
-        const remain = this.result[key] ? this.result[key].length : 0
-        console.log(key)
-        // 判断奖项是否抽完
-        if (allNumber - remain > 0) {
-          // 奖项没抽完
-          // emit后返回
-          this.$emit('toggle', Object.assign({}, {
-            mode: 1,
-            category: key,
-            allin: this.form.allin
-          }))
-          return
-        } else {
-          this.$message.error('抽奖次数用完了！');
-          // 奖项抽完了
-          continue
-        }
+        this.showSetwat = true;
       }
-      
-        // this.showSetwat = true;
+    },
+    spaceHandler() {
+      if (!this.running) {
+        const categorys = this.categorys
+        for (let i =0; i< categorys.length; i++) {
+          // console.log(item)
+          const item = categorys[i]
+          // 获取当前奖项value
+          const key = item.value
+          // 奖项总数
+          const allNumber = parseInt(this.config[key])
+          // 已抽人数
+          const remain = this.result[key] ? this.result[key].length : 0
+          const excludeAry = getExcludeAry(this.config.exclude)
+          // 判断奖项是否抽完
+          if (remain + excludeAry.length < this.config.number && allNumber - remain > 0) {
+            // 奖项没抽完
+            // emit后返回
+            this.$emit('toggle', Object.assign({}, {
+              mode: 1,
+              category: key,
+              allin: this.form.allin
+            }))
+            return
+          } else {
+            this.$message.error('抽奖次数用完了！');
+            this.$emit('toggle');
+            // 奖项抽完了
+            return
+          }
+        }
+      } else {
+        this.$emit('toggle');
       }
     },
     transformList() {
@@ -356,7 +362,7 @@ export default {
     keydownSpace(event) {
       if (event.code === 'Space') {
         // 执行相应的代码
-        this.startHandler()
+        this.spaceHandler()
       }
     }
   },
