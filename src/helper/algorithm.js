@@ -19,16 +19,10 @@
 //   return Array.from(new Array(end + 1).keys()).slice(start);
 // }
 export function generateArray(start, end) {
-  let count = 0;
-  let current = start;
   const result = [];
-
-  while (count < end) {
-    if (!current.toString().includes('4')) {
-      result.push(current);
-      count++;
-    }
-    current++;
+  for (let i=1; result.length < end; i++) {
+    if (i % 10 === 4) continue;
+    result.push(i);
   }
   return result;
 }
